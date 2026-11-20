@@ -1,0 +1,2 @@
+export(fit)
+importFrom(stats,ave)

@@ -1,0 +1,6 @@
+library(faststackedR)
+d <- expand.grid(time=1:7,id=0:11)
+d$g <- ifelse(d$id<4,3,ifelse(d$id<8,5,Inf))
+d$y <- .3*d$id+.2*d$time+2*(d$time>=d$g)
+r <- fit(d,"y","time",unit="id",gvar="g",event_window=c(-2,1))
+print(c(estimate=r$estimate,native_se=r$native_se))

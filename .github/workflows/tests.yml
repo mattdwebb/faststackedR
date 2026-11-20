@@ -1,0 +1,22 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  r:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - run: R CMD INSTALL .
+      - run: Rscript tests/validate.R
+      - run: Rscript tests/process.R
+      - run: Rscript tests/readme.R
